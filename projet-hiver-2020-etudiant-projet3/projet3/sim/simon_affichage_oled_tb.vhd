@@ -48,12 +48,14 @@ architecture bench of simon_affichage_oled_tb is
   signal col_data             : std_logic_vector (7 downto 0);
 
   constant clk_period         : time := 10ns;
+  constant A                  : integer := 11; -- Notre choix
   signal enable_clk_src       : boolean := true;
   
   -- signaux pour aider la verification
   signal line_start           : std_logic := '0';
   signal frame_start          : std_logic := '0';
   signal frame_count          : integer := 0;
+      
 begin
 
   uut: simon_affichage_oled
@@ -94,11 +96,35 @@ begin
   stimulus: process
   begin
     -- A completer
-    wait for 10000 ns; -- temporaire
-
-    -- PLAN DE MATCH Raph Oumou:
+    
+    -- Notre plan de vérification: 
+    -- On choisi A =11.
     -- Attendre que le reset soit fini
-    -- 
+    -- Vérifier que les signaux sont bien initialisé (todo)
+    -- On va donc essayer d'écrire dans le frame buffer les symboles suivants:
+    -- Le caractère associé au code 11 (qu'on met à l'adresse 17),
+    -- le caractère associé au code 12 (qu'on met à l'adresse 49) et le caractère espace (qu'on met à l'adresse 0).
+    -- Par la suite, nous allons faire dans le process "Verification" des lectures pour confirmer que les trois écritures ont été réussi.
+    
+    
+    wait for clk_period*8; -- Attendre que le reset soit fini
+
+    -- Écriture de l'espace à l'adresse 0.
+    fb_wr_en <= '1';
+    fb_wr_addr <= (others => '0'); -- L'adresse dans le OLED
+    fb_wr_data <= (others => '0'); -- Le code dans la charte des symboles
+    
+    wait for clk_period*1;
+    fb_wr_en <= '0';
+    
+    wait for clk_period*10;
+    
+    -- Écriture de du deuxième caractère à l'adresse A.
+    fb_wr_en <= '1';
+    fb_wr_addr <= A; -- L'adresse dans le OLED
+    fb_wr_data <= "11111"; -- Le code dans la charte des symboles
+    
+    -- (pas completement fini)...
 
 
     -- ArrÃªter l'horloge pour terminer la simulation automatiquement
@@ -119,6 +145,8 @@ begin
   verification: process
   begin
     -- A completer
+
+    wait until 
 
     -- Attendre la fin de la simulation
     wait;
