@@ -36,7 +36,7 @@ architecture behavioral of fb_mem is
   -- A completer
   -- type ...
   -- signal mem ...
-  type fb_mem_T is array (0 to 63) of std_logic_vector (7 downto 0);
+  type fb_mem_T is array (0 to 63) of std_logic_vector (4 downto 0);
   signal fb_mem : fb_mem_T;
   
   
