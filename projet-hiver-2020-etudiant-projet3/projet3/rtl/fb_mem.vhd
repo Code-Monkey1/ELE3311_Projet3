@@ -44,6 +44,8 @@ architecture behavioral of fb_mem is
   signal clk                   : std_logic;
   -- Registered internal signals for outputs
   signal rd_data               : std_logic_vector(4 downto 0);
+  
+  
 
 begin
   clk <= clk_i;
@@ -51,6 +53,17 @@ begin
 
   -- A completer
   -- process synchrone pour l'ecriture et la lecture de la memoire
+  p_sync: process(clk_i)
+    begin
+    if clk_i'event and clk_i='1' then
+        if wr_en_i ='1' then
+            RAM_2p (to_integer(unsigned(wr_addr_i)))<= wr_data_i;
+        end if;
+    rd_data <= RAM_2p (to_integer(unsigned(add_p2_i)));
+    end if;
+   end process;
+  
+  
   rd_data <= "10001"; -- Temporaire, a remplacer
 
   ----------------------------------------------------------------------------
