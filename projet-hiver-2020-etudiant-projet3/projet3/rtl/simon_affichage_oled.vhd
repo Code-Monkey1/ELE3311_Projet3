@@ -107,12 +107,12 @@ begin
   -- Generation du signal d'echantillonnage pour le dbnc
   -- Ajustement de la polarite du reset
   ----------------------------------------------------------------------------
-  --BUFG_inst : BUFG
-  --port map (
-  --   O => clk,
-  --   I => clk_100mhz_i
-  --);
-  -- le BUFG demanderait l'ajout de la librairie UNISIM a EDA Playground
+  BUFG_inst : BUFG
+  port map (
+     O => clk,
+     I => clk_100mhz_i
+  );
+  
   clk <= clk_100mhz_i;
 
   RST_BRIDGE_INST : rst_bridge	
