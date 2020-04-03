@@ -17,8 +17,8 @@ use IEEE.numeric_std.all;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+library UNISIM;
+use UNISIM.VComponents.all;
 
 entity simon_affichage_oled is
 generic (
@@ -113,7 +113,7 @@ begin
      I => clk_100mhz_i
   );
   
-  clk <= clk_100mhz_i;
+  --clk <= clk_100mhz_i;
 
   RST_BRIDGE_INST : rst_bridge	
   port map( 
@@ -171,4 +171,3 @@ begin
   ctl_addr_o          <= ctl_addr_p2;
 
 end behavioral;
-

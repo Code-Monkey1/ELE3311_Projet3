@@ -96,6 +96,11 @@ begin
     -- A completer
     wait for 10000 ns; -- temporaire
 
+    -- PLAN DE MATCH Raph Oumou:
+    -- Attendre que le reset soit fini
+    -- 
+
+
     -- Arrêter l'horloge pour terminer la simulation automatiquement
     enable_clk_src <= false;
     wait;
