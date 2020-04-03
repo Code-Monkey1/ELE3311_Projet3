@@ -33,13 +33,9 @@ end fb_mem;
 
 
 architecture behavioral of fb_mem is
-  -- A completer
-  -- type ...
-  -- signal mem ...
+
   type fb_mem_T is array (0 to 63) of std_logic_vector (4 downto 0);
   signal fb_mem : fb_mem_T;
-  
-  
 
   signal clk                   : std_logic;
   -- Registered internal signals for outputs
@@ -50,8 +46,6 @@ architecture behavioral of fb_mem is
 begin
   clk <= clk_i;
 
-
-  -- A completer
   -- process synchrone pour l'ecriture et la lecture de la memoire
   p_sync: process(clk_i)
     begin
@@ -62,9 +56,6 @@ begin
         rd_data <= fb_mem (to_integer(unsigned(rd_addr_i)));
     end if;
    end process;
-  
-  
-  rd_data <= "10001"; -- Temporaire, a remplacer
 
   ----------------------------------------------------------------------------
   -- Assign outputs
