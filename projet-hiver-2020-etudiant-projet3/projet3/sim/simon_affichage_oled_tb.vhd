@@ -101,9 +101,10 @@ begin
     -- On choisi A = 11.
     -- Attendre que le reset soit fini avec un "wait on"
     -- Vérifier que les signaux soient bien initialisé 
-    -- On va donc essayer d'écrire (aux fronts montants) dans le frame buffer les symboles suivants:
+    -- On va alors essayer d'écrire (aux fronts montants) dans le frame buffer les symboles suivants:
     -- Le caractère associé au code 11 (qu'on met à l'adresse 17),
-    -- le caractère associé au code 12 (qu'on met à l'adresse 49) et le caractère espace (qu'on met à l'adresse 0).
+    -- le caractère associé au code 12 (qu'on met à l'adresse 49)
+    -- le caractère espace (qu'on met à l'adresse 0).
     -- Par la suite, nous allons faire dans le process "Verification" des lectures pour confirmer que les trois écritures ont été réussi.
     -- Pour faire ces lectures sur col_data_o(aux fronts descendants), nous allons faire des "wait on" sur ctl_addr_o pour s'assurer d'être synchronisé.
     -- Nous allons ensuite comparer les caractères qui ont été lu avec les caractères qui ont été écrits. Cela va être fait avec 
