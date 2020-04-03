@@ -43,7 +43,7 @@ architecture behavioral of fb_mem is
 
   signal clk                   : std_logic;
   -- Registered internal signals for outputs
-  signal rd_data               : std_logic_vector(4 downto 0);
+  signal rd_data               : std_logic_vector(4 downto 0) := "00000";
   
   
 
@@ -57,9 +57,9 @@ begin
     begin
     if clk_i'event and clk_i='1' then
         if wr_en_i ='1' then
-            RAM_2p (to_integer(unsigned(wr_addr_i)))<= wr_data_i;
+            fb_mem (to_integer(unsigned(wr_addr_i)))<= wr_data_i;
         end if;
-    rd_data <= RAM_2p (to_integer(unsigned(add_p2_i)));
+        rd_data <= fb_mem (to_integer(unsigned(rd_addr_i)));
     end if;
    end process;
   
