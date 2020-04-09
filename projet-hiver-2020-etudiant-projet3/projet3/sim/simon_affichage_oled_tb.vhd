@@ -98,17 +98,20 @@ begin
     -- A completer
     
     -- ****Notre plan de vérification: ****
-    -- On choisi A = 11.
-    -- Attendre que le reset soit fini avec un "wait on"
-    -- Vérifier que les signaux soient bien initialisé 
+    -- On fixe A = 11.
+    -- Attendre que le reset soit fini avec un "wait until"
+    -- Vérifier que les signaux soient bien initialisé avec une boucle 
     -- On va alors essayer d'écrire (aux fronts montants) dans le frame buffer les symboles suivants:
     -- Le caractère associé au code 11 (qu'on met à l'adresse 17),
     -- le caractère associé au code 12 (qu'on met à l'adresse 49)
     -- le caractère espace (qu'on met à l'adresse 0).
+    -- Les écritures ne sont pas simultané. Il y a une pause entre chaque écriture.
     -- Par la suite, nous allons faire dans le process "Verification" des lectures pour confirmer que les trois écritures ont été réussi.
     -- Pour faire ces lectures sur col_data_o(aux fronts descendants), nous allons faire des "wait on" sur ctl_addr_o pour s'assurer d'être synchronisé.
     -- Nous allons ensuite comparer les caractères qui ont été lu avec les caractères qui ont été écrits. Cela va être fait avec 
     -- la commande "assert". 
+    
+    
     
     -- todo
     
@@ -143,9 +146,9 @@ begin
   -- Les sorties sont verifiees au front descendant de l'horloge
   -- PLAN DE VERIFICATION:  Ajouter des commentaires sur les items a verifier
   --                        dans le processus ci-dessous
-  line_start  <= '1' when (to_integer(unsigned(ctl_addr)) mod 128 = 0) else '0';
-  frame_start <= '1' when (to_integer(unsigned(ctl_addr)) = 0) else '0';
-  frame_count <= frame_count + 1 when rising_edge(frame_start);
+  line_start  <= '1' when (to_integer(unsigned(ctl_addr)) mod 128 = 0) else '0'; -- Utiliser pour savoir quand vérifier la prochaine ligne
+  frame_start <= '1' when (to_integer(unsigned(ctl_addr)) = 0) else '0'; -- Utiliser pour savoir lorsque la trame commence
+  frame_count <= frame_count + 1 when rising_edge(frame_start); -- Utiliser pour savoir si nous sommes à la bonne trame
 
   verification: process
   begin
