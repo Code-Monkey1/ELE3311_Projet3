@@ -35,7 +35,7 @@ end fb_mem;
 architecture behavioral of fb_mem is
 
   type fb_mem_T is array (0 to 63) of std_logic_vector (4 downto 0);
-  signal fb_mem : fb_mem_T := 
+  signal fb_mem : fb_mem_T := ((others=> (others=>'0'))); -- Init a zero
 
   signal clk                   : std_logic;
   -- Registered internal signals for outputs

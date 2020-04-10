@@ -39,22 +39,22 @@ architecture bench of simon_affichage_oled_tb is
 
   -- EntrÃ©es et sorties du UUT et valeur initiale
   signal rst                  : std_logic                     := '1';
-  signal rst_n                : std_logic;
-  signal clk_100mhz           : std_logic;
+  signal rst_n                : std_logic                     := '0';
+  signal clk_100mhz           : std_logic                     := '0';
   signal fb_wr_en             : std_logic                     := '0';
   signal fb_wr_addr           : std_logic_vector (5 downto 0) := (others => '0');
   signal fb_wr_data           : std_logic_vector (4 downto 0) := (others => '0');
-  signal ctl_addr             : std_logic_vector (8 downto 0);
-  signal col_data             : std_logic_vector (7 downto 0);
+  signal ctl_addr             : std_logic_vector (8 downto 0) := (others => '0');
+  signal col_data             : std_logic_vector (7 downto 0) := (others => '0');
 
-  constant clk_period         : time := 10ns;
-  constant A                  : integer := 11; -- Notre choix
-  signal enable_clk_src       : boolean := true;
+  constant clk_period         : time                          := 10ns;
+  constant A                  : integer                       := 11; -- Notre choix
+  signal enable_clk_src       : boolean                       := true;
   
   -- signaux pour aider la verification
-  signal line_start           : std_logic := '0';
-  signal frame_start          : std_logic := '0';
-  signal frame_count          : integer := 0;
+  signal line_start           : std_logic                     := '0';
+  signal frame_start          : std_logic                     := '0';
+  signal frame_count          : integer                       :=  0;
       
 begin
 
@@ -113,11 +113,10 @@ begin
     
     
     
-    -- todo
-    
-    wait for clk_period*8; -- Attendre que le reset soit fini
+    wait until rst = '0'; -- Attendre que le reset soit fini
 
-    -- Écriture de l'espace à l'adresse 0.
+    -- Écriture de l'espace à l'adresse 0 au front descendant
+	wait until falling_edge(clk)
     fb_wr_en <= '1';
     fb_wr_addr <= (others => '0'); -- L'adresse dans le OLED
     fb_wr_data <= (others => '0'); -- Le code dans la charte des symboles
@@ -129,7 +128,7 @@ begin
     
     -- Écriture de du deuxième caractère à l'adresse A.
     fb_wr_en <= '1';
-    fb_wr_addr <= A; -- L'adresse dans le OLED
+    fb_wr_addr <= "01011"; -- L'adresse dans le OLED
     fb_wr_data <= "11111"; -- Le code dans la charte des symboles
     
     -- (pas completement fini)...
@@ -152,10 +151,19 @@ begin
 
   verification: process
   begin
-    -- A completer
+    -- A completer:
 
-    wait until 
-
+		wait until rst = '0'; -- Attendre que le reset soit fini
+		
+		-- Vérifier que les signaux soient bien initialisé avec une boucle
+		for I in 0 to 514 loop -- 514 because there is two flip flops and 512 adresses
+			assert col_data = "00000000" report "col_data does not only contain zeros at the start" severity error; 
+		end loop;
+		
+		wait until frame_start = '1';
+		
+		
+		
     -- Attendre la fin de la simulation
     wait;
   end process;

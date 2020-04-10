@@ -28,7 +28,6 @@ port (
 );
 end symbol_map;
 
-
 architecture behavioral of symbol_map is
 
   signal clk                   : std_logic;
@@ -38,10 +37,20 @@ architecture behavioral of symbol_map is
 begin
   clk <= clk_i;
 
-  -- A completer
   -- processus synchrone pour l'assignation de la sortie
-  rd_data <= X"AA"; -- Temporaire, a remplacer
-
+    SYMBOL_MAP_PROCESS: process(clk, rd_addr_i)
+  begin
+		if rising_edge(clk) then
+			if (rd_addr_i(7 downto 3) = "01011") then -- Pour n'importe quelle rangée du caractère associé au code 11
+				rd_data <= "11111111"; -- On allume tout les pixels pour ce caractère
+			elsif (rd_addr_i(7 downto 3) = "01100") then -- Pour n'importe quelle rangée du caractère associé au code 12
+				rd_data <= "10101010"; -- On allume la moitié les pixels pour ce caractère
+			else
+				rd_data <= "00000000"; -- Pour n'importe quelle autre adresse, nous mettons un espace (aucun pixel d'allumé)
+			end if;
+		end if;
+  end process;
+  
   ----------------------------------------------------------------------------
   -- Assign outputs
   ----------------------------------------------------------------------------
