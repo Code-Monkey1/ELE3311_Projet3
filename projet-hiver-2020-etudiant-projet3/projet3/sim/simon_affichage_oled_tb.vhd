@@ -116,7 +116,7 @@ begin
     wait until rst = '0'; -- Attendre que le reset soit fini
 
     -- Écriture de l'espace à l'adresse 0 au front descendant
-	wait until falling_edge(clk)
+	wait until falling_edge(clk_100mhz);
     fb_wr_en <= '1';
     fb_wr_addr <= (others => '0'); -- L'adresse dans le OLED
     fb_wr_data <= (others => '0'); -- Le code dans la charte des symboles
@@ -126,13 +126,19 @@ begin
     
     wait for clk_period*10;
     
-    -- Écriture de du deuxième caractère à l'adresse A.
+    -- Écriture du deuxième caractère à l'adresse A (au front descendant)
+    wait until falling_edge(clk_100mhz);
     fb_wr_en <= '1';
-    fb_wr_addr <= "01011"; -- L'adresse dans le OLED
+    fb_wr_addr <= "001011"; -- L'adresse dans le OLED
     fb_wr_data <= "11111"; -- Le code dans la charte des symboles
     
+	wait until falling_edge(clk_100mhz);
+	fb_wr_en <= '0';
+    fb_wr_addr <= (others => '0'); -- L'adresse dans le OLED
+    fb_wr_data <= (others => '0'); -- Le code dans la charte des symboles
     -- (pas completement fini)...
 
+    wait for 10*clk_period;
 
     -- ArrÃªter l'horloge pour terminer la simulation automatiquement
     enable_clk_src <= false;

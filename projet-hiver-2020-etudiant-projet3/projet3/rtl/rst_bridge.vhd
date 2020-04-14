@@ -33,8 +33,8 @@ end rst_bridge;
 
 architecture arch_rst_bridge of rst_bridge is
 
-  signal sig_meta : std_logic;
-  signal sig_dst  : std_logic;
+  signal sig_meta : std_logic := '0';
+  signal sig_dst  : std_logic := '0';
   attribute ASYNC_REG : string;
   attribute ASYNC_REG of sig_meta : signal is "TRUE";
   attribute ASYNC_REG of sig_dst  : signal is "TRUE";
@@ -43,8 +43,22 @@ begin
 
   rst_clk_o <= sig_dst;
 
-  -- A completer
   -- processus synchrone
-  sig_dst <= '1', '0' after 666 ns;  -- Temporaire pour les simulations
-
+  RESET_BRIDGE: process (clk_i, rst_n_i)
+  begin
+    if (rst_n_i = '0') then 
+        sig_dst <= '1'; -- Remise à zéro asynchrone de la sortie (active haute)
+        sig_meta <= '1';
+    elsif (clk_i'event and clk_i = '1') then
+        sig_meta <= '0'; -- À tout les coups d'horloge, le signal meta est mis à zéro
+        sig_dst <= sig_meta; -- La sortie est désactivée de manière synchrone
+    end if;
+  end process;
 end arch_rst_bridge;
+
+
+
+
+
+
+
