@@ -128,17 +128,27 @@ begin
     
     -- Écriture du deuxième caractère à l'adresse A (au front descendant)
     wait until falling_edge(clk_100mhz);
-    fb_wr_en <= '1';
-    fb_wr_addr <= "001011"; -- L'adresse dans le OLED
-    fb_wr_data <= "11111"; -- Le code dans la charte des symboles
+    fb_wr_en <= '1'; -- Mode écriture pour une période
+    fb_wr_addr <= "010001"; -- L'adresse dans le OLED. On veut mettre a la position 17 le symbole associé au code 11.
+    fb_wr_data <= "01011"; -- Le code (A = 11) dans la charte des symboles
     
 	wait until falling_edge(clk_100mhz);
 	fb_wr_en <= '0';
-    fb_wr_addr <= (others => '0'); -- L'adresse dans le OLED
-    fb_wr_data <= (others => '0'); -- Le code dans la charte des symboles
-    -- (pas completement fini)...
+    fb_wr_addr <= (others => '0');
+    fb_wr_data <= (others => '0');
 
-    wait for 10*clk_period;
+    -- Écriture du dernier caractère à l'adresse A+1 (au front descendant)
+    wait until falling_edge(clk_100mhz);
+    fb_wr_en <= '1';
+    fb_wr_addr <= "110001";  -- L'adresse dans le OLED. On veut mettre a la position 49 le symbole associé au code 12.
+    fb_wr_data <= "01100";  -- Le code (A+1 = 12) dans la charte des symboles
+
+	wait until falling_edge(clk_100mhz);
+	fb_wr_en <= '0';
+    fb_wr_addr <= (others => '0');
+    fb_wr_data <= (others => '0');
+    
+    wait for 30000*clk_period;
 
     -- ArrÃªter l'horloge pour terminer la simulation automatiquement
     enable_clk_src <= false;

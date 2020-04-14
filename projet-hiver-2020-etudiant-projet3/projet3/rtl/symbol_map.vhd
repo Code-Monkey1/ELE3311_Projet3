@@ -30,9 +30,8 @@ end symbol_map;
 
 architecture behavioral of symbol_map is
 
-  signal clk                   : std_logic;
-
-  signal rd_data               : std_logic_vector(7 downto 0);
+  signal clk                   : std_logic := '0';
+  signal rd_data               : std_logic_vector(7 downto 0) := (others => '0');
 
 begin
   clk <= clk_i;
