@@ -44,13 +44,13 @@ architecture behavioral of simon_affichage_oled is
 -- Entete de l'architecture
 -- ###########################################################################
 
-  signal rst                    : std_logic;
-  signal clk                    : std_logic;
-  signal ctl_addr               : std_logic_vector(8 downto 0);
-  signal ctl_addr_p1            : std_logic_vector(8 downto 0);
-  signal ctl_addr_p2            : std_logic_vector(8 downto 0);
-  signal char_addr              : std_logic_vector(7 downto 0);
-  signal symbol                 : std_logic_vector(4 downto 0);
+  signal rst                    : std_logic := '1';
+  signal clk                    : std_logic := '0';
+  signal ctl_addr               : std_logic_vector(8 downto 0) := (others => '0');
+  signal ctl_addr_p1            : std_logic_vector(8 downto 0) := (others => '0');
+  signal ctl_addr_p2            : std_logic_vector(8 downto 0) := (others => '0');
+  signal char_addr              : std_logic_vector(7 downto 0) := (others => '0');
+  signal symbol                 : std_logic_vector(4 downto 0) := (others => '0');
 
   component rst_bridge	
   generic (
