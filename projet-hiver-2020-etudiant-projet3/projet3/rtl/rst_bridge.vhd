@@ -38,23 +38,13 @@ architecture arch_rst_bridge of rst_bridge is
   attribute ASYNC_REG : string;
   attribute ASYNC_REG of sig_meta : signal is "TRUE";
   attribute ASYNC_REG of sig_dst  : signal is "TRUE";
- 
-begin   
-rst_bridge : process (clk_i,rst_n_i)
+     
 begin
 
   rst_clk_o <= sig_dst;
-  sig_dst <= '1', '0' after 666 ns;  -- Temporaire pour les simulations
- 
+
   -- A completer
   -- processus synchrone
-   if (rst_n_i='0') then  -----si reset est active (actif niveau bas) alors :
-     sig_meta <= '1';     -----la synchronisation est active de maniere asynchrone (immediat)
-     sig_dst  <= '1';     -----et la sortie est activee
-   elsif (rising_edge(clk_i)) then -----sinon (reset inactif), au prochain front montant de l'horloge :
-      sig_meta <= '0';             -----la synchronisation n'est plus active de maniere asynchrone 
-      sig_dst  <= '0';             -----et la sortie est desactivee
-   end if;
- end process;
+  sig_dst <= '1', '0' after 666 ns;  -- Temporaire pour les simulations
 
 end arch_rst_bridge;
