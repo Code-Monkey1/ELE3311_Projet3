@@ -126,7 +126,7 @@ begin
     
     wait for clk_period*10;
     
-    -- Écriture du deuxième caractère à l'adresse A (au front descendant)
+    -- Écriture du deuxième caractère à l'adresse 17 (au front descendant)
     wait until falling_edge(clk_100mhz);
     fb_wr_en <= '1'; -- Mode écriture pour une période
     fb_wr_addr <= "010001"; -- L'adresse dans le OLED. On veut mettre a la position 17 le symbole associé au code 11.
@@ -183,7 +183,7 @@ begin
 		
 		-- VÉRIFICATION DU SYMBOLE ASSOCIÉ AU CODE 11 À L'ADRESSE 17
 		wait until line_start = '1'; -- L'adresse 17 est sur la deuxieme ligne donc on doit attendre pour que la premiere ligne finisse
-		wait on  ctl_addr until ctl_addr = "010001000" for 16 * clk_period;
+		wait on  ctl_addr until ctl_addr = "010001000" for 10 * clk_period;
 		wait until falling_edge(clk_100mhz); -- On regarde les fronts descendants pour la vérification
 		assert ctl_addr(8 downto 3) = "010001" report "Error ctl_addr: should be 17" severity error; -- Doit être la bonne adresse
         while ctl_addr(8 downto 3) = "010001" loop
