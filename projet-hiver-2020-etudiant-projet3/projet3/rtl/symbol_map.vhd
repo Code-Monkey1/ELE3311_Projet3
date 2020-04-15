@@ -40,12 +40,12 @@ begin
     SYMBOL_MAP_PROCESS: process(clk, rd_addr_i)
   begin
 		if rising_edge(clk) then
-			if (rd_addr_i(7 downto 3) = "01011") then -- Pour n'importe quelle rang√©e du caract√®re associ√© au code 11
-				rd_data <= "11111111"; -- On allume tout les pixels pour ce caract√®re
-			elsif (rd_addr_i(7 downto 3) = "01100") then -- Pour n'importe quelle rang√©e du caract√®re associ√© au code 12
-				rd_data <= "10101010"; -- On allume la moiti√© les pixels pour ce caract√®re
+			if (rd_addr_i(7 downto 3) = "01011") then -- Pour n'importe quelle rangÈ du caractËre associÈ au code 11
+				rd_data <= "11111111"; -- On allume tout les pixels pour ce caractËre
+			elsif (rd_addr_i(7 downto 3) = "01100") then -- Pour n'importe quelle rang√©e du caractËre associÈ au code 12
+				rd_data <= "10101010"; -- On allume la moitiÈ les pixels pour ce caractËre
 			else
-				rd_data <= "00000000"; -- Pour n'importe quelle autre adresse, nous mettons un espace (aucun pixel d'allum√©)
+				rd_data <= "00000000"; -- Pour n'importe quelle autre adresse, nous mettons un espace (aucun pixel d'allumÈ)
 			end if;
 		end if;
   end process;

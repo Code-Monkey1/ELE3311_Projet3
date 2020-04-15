@@ -49,11 +49,11 @@ begin
   -- process synchrone pour l'ecriture et la lecture de la memoire
   p_sync: process(clk_i)
     begin
-    if clk_i'event and clk_i='1' then
-        if wr_en_i ='1' then
-            fb_mem (to_integer(unsigned(wr_addr_i)))<= wr_data_i;
+    if clk_i'event and clk_i='1' then -- Processus synchrone
+        if wr_en_i ='1' then -- Si nous sommes en mode écriture
+            fb_mem (to_integer(unsigned(wr_addr_i)))<= wr_data_i; -- Insère les données dans la mémoire
         end if;
-        rd_data <= fb_mem (to_integer(unsigned(rd_addr_i)));
+        rd_data <= fb_mem (to_integer(unsigned(rd_addr_i))); -- La lecture va chercher les données dans la mémoire
     end if;
    end process;
 
