@@ -148,7 +148,7 @@ begin
     fb_wr_addr <= (others => '0');
     fb_wr_data <= (others => '0');
     
-    wait for 30000*clk_period;
+    wait for 30000*clk_period; -- 300 microsecondes
 
     -- ArrÃªter l'horloge pour terminer la simulation automatiquement
     enable_clk_src <= false;
@@ -172,13 +172,41 @@ begin
 		wait until rst = '0'; -- Attendre que le reset soit fini
 		
 		-- Vérifier que les signaux soient bien initialisé avec une boucle
-		for I in 0 to 514 loop -- 514 because there is two flip flops and 512 adresses
-			assert col_data = "00000000" report "col_data does not only contain zeros at the start" severity error; 
-		end loop;
+        while frame_start = '0' loop
+          assert col_data = "00000000" report "col_data does not only contain zeros at the start" severity error; 
+          wait for clk_period;
+        end loop;
 		
-		wait until frame_start = '1';
+		wait until frame_start = '1'; -- Nouvelle frame
 		
+		wait for 4*clk_period;
 		
+		-- VÉRIFICATION DU SYMBOLE ASSOCIÉ AU CODE 11 À L'ADRESSE 17
+		wait until line_start = '1'; -- L'adresse 17 est sur la deuxieme ligne donc on doit attendre pour que la premiere ligne finisse
+		wait on  ctl_addr until ctl_addr = "010001000" for 16 * clk_period;
+		wait until falling_edge(clk_100mhz); -- On regarde les fronts descendants pour la vérification
+		assert ctl_addr(8 downto 3) = "010001" report "Error ctl_addr: should be 17" severity error; -- Doit être la bonne adresse
+        while ctl_addr(8 downto 3) = "010001" loop
+		  assert col_data(7 downto 0) = "11111111" report "Error data is incorrect: this data was expected: 11111111" severity error; -- Doit être les bonnes données
+          wait until falling_edge(clk_100mhz);
+        end loop;
+		
+        wait for 4*clk_period;
+		
+		-- VÉRIFICATION DU SYMBOLE ASSOCIÉ AU CODE 12 À L'ADRESSE 49
+		-- Nous sommes encore à la deuxième ligne. Notre destination, soit l'adresse 49  se trouve à la quatrième ligne,
+		-- donc on attend pour deux line_start
+		wait until line_start = '1';
+		wait until line_start = '1';
+		
+        wait on  ctl_addr until ctl_addr = "110001000" for 10 * clk_period;
+		wait until falling_edge(clk_100mhz); -- On regarde les fronts descendants pour la vérification
+		assert ctl_addr(8 downto 3) = "110001" report "Error ctl_addr: should be 49" severity error; -- Doit être la bonne adresse
+        while ctl_addr(8 downto 3) = "110001" loop
+          assert col_data(7 downto 0) = "10101010" report "Error data is incorrect: this data was expected: 10101010" severity error; -- Doit être les bonnes données
+          wait until falling_edge(clk_100mhz);
+        end loop;
+	
 		
     -- Attendre la fin de la simulation
     wait;
