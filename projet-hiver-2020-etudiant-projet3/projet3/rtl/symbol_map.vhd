@@ -40,13 +40,32 @@ begin
     SYMBOL_MAP_PROCESS: process(clk, rd_addr_i)
   begin
 		if rising_edge(clk) then
-			if (rd_addr_i(7 downto 3) = "01011") then -- Pour n'importe quelle rangé du caractère associé au code 11
-				rd_data <= "11111111"; -- On allume tout les pixels pour ce caractère
-			elsif (rd_addr_i(7 downto 3) = "01100") then -- Pour n'importe quelle rangÃ©e du caractère associé au code 12
-				rd_data <= "10101010"; -- On allume la moitié les pixels pour ce caractère
-			else
-				rd_data <= "00000000"; -- Pour n'importe quelle autre adresse, nous mettons un espace (aucun pixel d'allumé)
-			end if;
+		   case (rd_addr_i) is
+		      when "01011000" =>
+		            rd_data <= "11111111"; -- On allume une colonne sur deux
+              when "01011001" =>
+                    rd_data <= "00000000";
+ 		      when "01011010" =>
+		            rd_data <= "11111111";
+              when "01011011" =>
+                    rd_data <= "00000000";   
+ 		      when "01011100" =>
+		            rd_data <= "11111111";
+              when "01011101" =>
+                    rd_data <= "00000000";
+		      when "01011110" =>
+		            rd_data <= "11111111";
+              when "01011111" =>
+                    rd_data <= "00000000"; 
+		    
+		    
+--			if (rd_addr_i(7 downto 3) = "01011") then -- Pour n'importe quelle rangé du caractère associé au code 11
+--				rd_data <= "11111111"; -- On allume tout les pixels pour ce caractère
+--			elsif (rd_addr_i(7 downto 3) = "01100") then -- Pour n'importe quelle rangÃ©e du caractère associé au code 12
+--				rd_data <= "10101010"; -- On allume la moitié les pixels pour ce caractère
+--			else
+--				rd_data <= "00000000"; -- Pour n'importe quelle autre adresse, nous mettons un espace (aucun pixel d'allumé)
+--			end if;
 		end if;
   end process;
   
