@@ -57,7 +57,32 @@ begin
 		            rd_data <= "11111111";
               when "01011111" =>
                     rd_data <= "00000000"; 
-		    
+       
+                    
+              
+		      when "01100000" =>
+		            rd_data <= "00000001";
+		      when "01100001" =>
+		            rd_data <= "00000010";
+		      when "01100010" =>
+		            rd_data <= "00000100";
+		      when "01100011" =>
+		            rd_data <= "00001000";      
+		      when "01100100" =>
+		            rd_data <= "00010000"; 
+		      when "01100101" =>
+		            rd_data <= "00100000"; 
+		      when "01100110" =>
+		            rd_data <= "01000000"; 
+		      when "01100111" =>
+		            rd_data <= "10000000"; 
+		            
+		      when others => 
+		            rd_data <= "00000000";   
+		         
+		end case;  
+		            
+		            
 		    
 --			if (rd_addr_i(7 downto 3) = "01011") then -- Pour n'importe quelle rangé du caractère associé au code 11
 --				rd_data <= "11111111"; -- On allume tout les pixels pour ce caractère

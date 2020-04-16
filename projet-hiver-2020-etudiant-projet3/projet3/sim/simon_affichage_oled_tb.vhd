@@ -187,7 +187,25 @@ begin
 		wait until falling_edge(clk_100mhz); -- On regarde les fronts descendants pour la vérification
 		assert ctl_addr(8 downto 3) = "010001" report "Error ctl_addr: should be 17" severity error; -- Doit être la bonne adresse
         while ctl_addr(8 downto 3) = "010001" loop
-		  assert col_data(7 downto 0) = "11111111" report "Error data is incorrect: this data was expected: 11111111" severity error; -- Doit être les bonnes données
+        
+            if (ctl_addr(2 downto 0) = "000") then
+                assert col_data(7 downto 0) = "11111111" report "Error data is incorrect: this data was expected: 11111111" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "001") then
+		      assert col_data(7 downto 0) = "00000000" report "Error data is incorrect: this data was expected: 00000000" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "010") then
+		      assert col_data(7 downto 0) = "11111111" report "Error data is incorrect: this data was expected: 11111111" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "011") then
+		      assert col_data(7 downto 0) = "00000000" report "Error data is incorrect: this data was expected: 00000000" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "100") then
+		      assert col_data(7 downto 0) = "11111111" report "Error data is incorrect: this data was expected: 11111111" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "101") then
+		      assert col_data(7 downto 0) = "00000000" report "Error data is incorrect: this data was expected: 00000000" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "110") then
+		      assert col_data(7 downto 0) = "11111111" report "Error data is incorrect: this data was expected: 11111111" severity error; -- Doit être les bonnes données
+            else
+		      assert col_data(7 downto 0) = "00000000" report "Error data is incorrect: this data was expected: 00000000" severity error; -- Doit être les bonnes données
+		    end if;
+		      
           wait until falling_edge(clk_100mhz);
         end loop;
 		
@@ -203,7 +221,27 @@ begin
 		wait until falling_edge(clk_100mhz); -- On regarde les fronts descendants pour la vérification
 		assert ctl_addr(8 downto 3) = "110001" report "Error ctl_addr: should be 49" severity error; -- Doit être la bonne adresse
         while ctl_addr(8 downto 3) = "110001" loop
-          assert col_data(7 downto 0) = "10101010" report "Error data is incorrect: this data was expected: 10101010" severity error; -- Doit être les bonnes données
+
+            if (ctl_addr(2 downto 0) = "000") then
+                assert col_data(7 downto 0) = "00000001" report "Error data is incorrect: this data was expected: 00000001" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "001") then
+		      assert col_data(7 downto 0) = "00000010" report "Error data is incorrect: this data was expected: 00000010" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "010") then
+		      assert col_data(7 downto 0) = "00000100" report "Error data is incorrect: this data was expected: 00000100" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "011") then
+		      assert col_data(7 downto 0) = "00001000" report "Error data is incorrect: this data was expected: 00001000" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "100") then
+		      assert col_data(7 downto 0) = "00010000" report "Error data is incorrect: this data was expected: 00010000" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "101") then
+		      assert col_data(7 downto 0) = "00100000" report "Error data is incorrect: this data was expected: 00100000" severity error; -- Doit être les bonnes données
+            elsif  (ctl_addr(2 downto 0) = "110") then
+		      assert col_data(7 downto 0) = "01000000" report "Error data is incorrect: this data was expected: 01000000" severity error; -- Doit être les bonnes données
+            else
+		      assert col_data(7 downto 0) = "10000000" report "Error data is incorrect: this data was expected: 10000000" severity error; -- Doit être les bonnes données
+		    end if;
+		      
+          wait until falling_edge(clk_100mhz);
+
           wait until falling_edge(clk_100mhz);
         end loop;
 	
