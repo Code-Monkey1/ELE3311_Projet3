@@ -170,12 +170,9 @@ begin
     -- A completer:
 
 		wait until rst = '0'; -- Attendre que le reset soit fini
+		report "Beginning of test.";
 		
-		-- Vérifier que les signaux soient bien initialisé avec une boucle
-        while frame_start = '0' loop
-          assert col_data = "00000000" report "col_data does not only contain zeros at the start" severity error; 
-          wait for clk_period;
-        end loop;
+		wait for 4*clk_period;
 		
 		wait until frame_start = '1'; -- Nouvelle frame
 		
@@ -244,7 +241,7 @@ begin
 
           wait until falling_edge(clk_100mhz);
         end loop;
-	
+	report "End of test";
 		
     -- Attendre la fin de la simulation
     wait;
